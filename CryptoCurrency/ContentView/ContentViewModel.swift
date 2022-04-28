@@ -8,12 +8,15 @@
 import Foundation
 import SwiftUI
 
-
-extension ContentView {
-    class ViewModel: ObservableObject {
+//U
+//extension ContentView {
+    class ContentViewModel: ObservableObject {
         @Published var rates = [Rate]()
         @Published var searchText = ""
         @Published var amount: Double = 100
+        //U
+        var networkManager: CryptoAPIType = CryptoAPI()
+
         var filteredRates: [Rate] {
             return searchText == "" ? rates : rates.filter {$0.asset_id_quote.contains(searchText.uppercased())}
         }
@@ -23,9 +26,11 @@ extension ContentView {
         }
         
         func refereshData() {
-            CryptoAPI().getCryptoData(currency: "EUR", previewMode: false, { newRates in DispatchQueue.main.async {
+            //U
+            networkManager.getCryptoData(currency: "EUR", previewMode: false, { newRates in DispatchQueue.main.async {
                 withAnimation {
                     self.rates = newRates
+                    print("test completed")
                 }
                 print("Successfully got new rates: \(self.rates.count)")
                 
@@ -36,4 +41,4 @@ extension ContentView {
         
        
     }
-}
+//}//U
